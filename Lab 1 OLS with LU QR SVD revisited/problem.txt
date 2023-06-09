@@ -1,0 +1,69 @@
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+~\AppData\Local\Temp/ipykernel_17384/991693378.py in 
+      7 
+      8     # Solve the least squares problem to find the coefficients of the polynomial
+----> 9     c = np.linalg.solve(R[:n+1, :], np.dot(Q.T, f(x)))
+     10     coefficients[i, :n+1] = c
+     11 
+
+<__array_function__ internals> in solve(*args, **kwargs)
+
+c:\Users\ptolo\anaconda3\lib\site-packages\numpy\linalg\linalg.py in solve(a, b)
+    391     signature = 'DD->D' if isComplexType(t) else 'dd->d'
+    392     extobj = get_linalg_error_extobj(_raise_linalgerror_singular)
+--> 393     r = gufunc(a, b, signature=signature, extobj=extobj)
+    394 
+    395     return wrap(r.astype(result_t, copy=False))
+
+ValueError: solve1: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (m,m),(m)->(m) (size 60 is different from 4)
+
+# Apply QR decomposition to the Vandermonde matrix
+    Q, R = qr(V, mode='economic')
+
+????
+
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+~\AppData\Local\Temp/ipykernel_17384/1738644883.py in 
+      4 
+      5     # Apply LU decomposition to the Vandermonde matrix
+----> 6     LU, piv = lu_factor(V)
+      7 
+      8     # Solve the least squares problem to find the coefficients of the polynomial
+
+c:\Users\ptolo\anaconda3\lib\site-packages\scipy\linalg\decomp_lu.py in lu_factor(a, overwrite_a, check_finite)
+     72         a1 = asarray(a)
+     73     if len(a1.shape) != 2 or (a1.shape[0] != a1.shape[1]):
+---> 74         raise ValueError('expected square matrix')
+     75     overwrite_a = overwrite_a or (_datacopied(a1, a))
+     76     getrf, = get_lapack_funcs(('getrf',), (a1,))
+
+ValueError: expected square matrix
+
+# Generate the Vandermonde matrix
+    roots = np.cos(np.pi * (np.arange(n+1) + 0.5) / (n+1))
+    V = np.vander(roots, increasing=True)
+    
+    # Apply LU decomposition to the Vandermonde matrix
+    LU, piv = lu_factor(V)
+
+???
+
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+~\AppData\Local\Temp/ipykernel_17384/3760164767.py in 
+     11 
+     12     # Solve the least squares problem to find the coefficients of the polynomial
+---> 13     c = lu_solve((LU, piv), f(x))
+     14     coefficients[i, :n] = c
+     15 
+
+c:\Users\ptolo\anaconda3\lib\site-packages\scipy\linalg\decomp_lu.py in lu_solve(lu_and_piv, b, trans, overwrite_b, check_finite)
+    138     overwrite_b = overwrite_b or _datacopied(b1, b)
+    139     if lu.shape[0] != b1.shape[0]:
+--> 140         raise ValueError("Shapes of lu {} and b {} are incompatible"
+    141                          .format(lu.shape, b1.shape))
+    142 
+
+ValueError: Shapes of lu (4, 4) and b (60,) are incompatible
